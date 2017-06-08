@@ -3,6 +3,12 @@
 SOURCE="/home/elektronik"
 DEST="elektronik@192.168.0.141:/media/elektroNIK_500GB/.backup"
 
+# checking argument
+if [ "$1" ]
+  then
+    DEST=$1
+fi
+
 rsync -ahPu --partial --delete-during --delete-excluded --exclude-from=backup.exclude $SOURCE $DEST
 
 ALL=$(mktemp)
@@ -15,6 +21,7 @@ tree -inR  -o $PROG  --dirsfirst      $SOURCE/Programs/
 tree -inR  -o $SOUND --dirsfirst      $SOURCE/Sounds/
 tree -inR  -o $VIDEO --dirsfirst      $SOURCE/Videos/
 
+# upload temp files
 sftp $DEST <<EOF
 put $ALL   All.txt
 put $PROG  Programs.txt
