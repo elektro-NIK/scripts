@@ -3,7 +3,7 @@
 SOURCE="/home/elektronik"
 DEST="elektronik@192.168.0.141:/media/elektroNIK_500GB/.backup"
 
-rsync -P --archive --human-readable --partial --update --delete-during --delete-excluded --exclude-from=backup.exclude $SOURCE $DEST
+rsync -ahPu --partial --delete-during --delete-excluded --exclude-from=backup.exclude $SOURCE $DEST
 
 ALL=$(mktemp)
 PROG=$(mktemp)
