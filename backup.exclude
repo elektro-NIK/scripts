@@ -1,0 +1,9 @@
+- .*
+- *.vdi
+- *.avi
+- *.mkv
+- *.torrent
+- *.iso
++ Programs/Multiboot/
+- Programs/*
+- Videos/*
