@@ -5,10 +5,26 @@ DEST="elektronik@192.168.0.141:/media/elektroNIK_500GB/.backup"
 
 rsync -P --archive --human-readable --partial --update --delete-during --delete-excluded --exclude-from=backup.exclude $SOURCE $DEST
 
-# tree -hnRs -o $DEST/All.txt        --dirsfirst --du ~
-# tree -inR  -o $DEST/Soundslist.txt --dirsfirst      ~/Sounds/
-# tree -inR  -o $DEST/Videoslist.txt --dirsfirst      ~/Videos/
-# tree -inR  -o $DEST/Driverlist.txt --dirsfirst      ~/Programs/Drivers/
-# tree -inR  -o $DEST/OSlist.txt     --dirsfirst      ~/Programs/OS/
-# tree -inR  -o $DEST/Softlist.txt   --dirsfirst      ~/Programs/Soft/
+ALL=$(mktemp)
+PROG=$(mktemp)
+SOUND=$(mktemp)
+VIDEO=$(mktemp)
+
+tree -hnRs -o $ALL   --dirsfirst --du $SOURCE
+tree -inR  -o $PROG  --dirsfirst      $SOURCE/Programs/
+tree -inR  -o $SOUND --dirsfirst      $SOURCE/Sounds/
+tree -inR  -o $VIDEO --dirsfirst      $SOURCE/Videos/
+
+sftp $DEST <<EOF
+put $ALL   All.txt
+put $PROG  Programs.txt
+put $SOUND Sounds.txt
+put $VIDEO Videos.txt
+EOF
+
+rm $ALL
+rm $PROG
+rm $SOUND
+rm $VIDEO
+
 exit
