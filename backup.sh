@@ -1,7 +1,8 @@
 #!/bin/bash
 
-SOURCE="/home/elektronik"
-DEST="elektronik@192.168.0.141:/media/elektroNIK_500GB/.backup"
+SOURCE=$HOME
+DEST=""
+TEMPDIR=$HOME/.temp-backup
 
 # checking argument
 if [ "$1" ]
@@ -9,12 +10,14 @@ if [ "$1" ]
     DEST=$1
 fi
 
-rsync -ahPu --partial --delete-during --delete-excluded --exclude-from=backup.exclude $SOURCE $DEST
+rsync -ahu --info=progress2 --partial --delete-during --delete-excluded --exclude-from=backup.exclude $SOURCE $DEST
 
-ALL=$(mktemp)
-PROG=$(mktemp)
-SOUND=$(mktemp)
-VIDEO=$(mktemp)
+mkdir $TEMPDIR
+
+ALL=$(mktemp --tmpdir=$TEMPDIR)
+PROG=$(mktemp --tmpdir=$TEMPDIR)
+SOUND=$(mktemp --tmpdir=$TEMPDIR)
+VIDEO=$(mktemp --tmpdir=$TEMPDIR)
 
 tree -hnRs -o $ALL   --dirsfirst --du $SOURCE
 tree -inR  -o $PROG  --dirsfirst      $SOURCE/Programs/
@@ -29,9 +32,6 @@ put $SOUND Sounds.txt
 put $VIDEO Videos.txt
 EOF
 
-rm $ALL
-rm $PROG
-rm $SOUND
-rm $VIDEO
+rm -r $TEMPDIR
 
 exit
