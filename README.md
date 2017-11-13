@@ -4,6 +4,7 @@ Collection of scripts in Bash and Python
 ## Depending:
 - backup.sh: `tree`, `sftp`
 - HDR.sh: `darktable-cli`, `hugin`
+- music.py: `python3`, `ffmpeg`
 
 ## Using:
 - backup.sh - simple backup with exclude list:
@@ -13,3 +14,5 @@ Collection of scripts in Bash and Python
   - `cp <files> <dir>`- locate *.CR2 files in directory
   - `cp HDR.sh HDR.xmp <dir>` - copy script files to directory
   - `./HDR.sh` - run script
+- music.py - script for recode music:
+  - `./music.py` - recode music from idir to odir with baudrate (baud)
